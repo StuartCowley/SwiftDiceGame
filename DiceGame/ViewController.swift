@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  DiceGame
 //
-//  Created by CodeNation18 on 20/06/2019.
-//  Copyright © 2019 CodeNation18. All rights reserved.
+//  Created by Stu Cowley on 20/06/2019.
+//  Copyright © 2019 Stu Cowley. All rights reserved.
 //
 
 import UIKit

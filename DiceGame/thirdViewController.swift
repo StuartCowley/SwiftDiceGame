@@ -2,8 +2,8 @@
 //  thirdViewController.swift
 //  DiceGame
 //
-//  Created by CodeNation18 on 20/06/2019.
-//  Copyright © 2019 CodeNation18. All rights reserved.
+//  Created by Stu Cowley on 20/06/2019.
+//  Copyright © 2019 Stu Cowley. All rights reserved.
 //
 
 import Foundation
@@ -36,7 +36,7 @@ class thirdViewController: UIViewController {
     
     // MARK: Functions
     // Function to calculate the win rate
-    // Function to display number of attempts, number of successes, and win rate
+    // Function refresh the display showing number of attempts, number of successes, and win rate as a percentage
     
     func calcWinRate() {
         if (stats.wins != 0) {
