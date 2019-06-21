@@ -10,15 +10,7 @@ import Foundation
 import UIKit
 
 class secondViewController: UIViewController {
-    
-    // MARK: Variables
-    var dice = [#imageLiteral(resourceName: "Kismet-Ace.png"),#imageLiteral(resourceName: "Kismet-Deuce"),#imageLiteral(resourceName: "Kismet-Trey"),#imageLiteral(resourceName: "Kismet-Four"),#imageLiteral(resourceName: "Kismet-Five.png"),#imageLiteral(resourceName: "Kismet-Six")]
-    var randomDiceIndex: Int = 0
-    var playerOneScore: Int = 0
-    var playerTwoScore: Int = 0
-    var currentPlayer = "playerOne"
-    var ended = false
-    
+   
     // MARK: Outlets
     
     @IBOutlet weak var playerOneScoreLabel: UILabel!
@@ -31,23 +23,23 @@ class secondViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func rollButtonAction(_ sender: Any) {
-        if (ended) {
+        if (stats.ended) {
             reset()
             return
         }
-        randomDiceIndex = Int.random(in: 0 ... 5)
-        diceImage.image = dice[randomDiceIndex]
-        if currentPlayer == "playerOne" {
+        stats.randomDiceIndex = Int.random(in: 0 ... 5)
+        diceImage.image = stats.dice[stats.randomDiceIndex]
+        if stats.currentPlayer == "playerOne" {
             playerTwoScoreLabel.backgroundColor = .none
             playerOneScoreLabel.backgroundColor = .cyan
-            playerOneScore = playerOneScore + randomDiceIndex + 1
-            playerOneScoreLabel.text = "Player 1's score: " + String(playerOneScore)
+            stats.playerOneScore = stats.playerOneScore + stats.randomDiceIndex + 1
+            playerOneScoreLabel.text = "Player 1's score: " + String(stats.playerOneScore)
             diceLogic()
-        } else if currentPlayer == "playerTwo" {
+        } else if stats.currentPlayer == "playerTwo" {
             playerOneScoreLabel.backgroundColor = .none
             playerTwoScoreLabel.backgroundColor = .cyan
-            playerTwoScore = playerTwoScore + randomDiceIndex + 1
-            playerTwoScoreLabel.text = "Player 2's score: " +  String(playerTwoScore)
+            stats.playerTwoScore = stats.playerTwoScore + stats.randomDiceIndex + 1
+            playerTwoScoreLabel.text = "Player 2's score: " +  String(stats.playerTwoScore)
             diceLogic()
         }
     }
@@ -60,68 +52,69 @@ class secondViewController: UIViewController {
     // Reset function
     
     func reset() {
-        playerOneScore = 0
-        playerTwoScore = 0
-        playerOneScoreLabel.text = "Player 1's score: " + String(playerOneScore)
-        playerTwoScoreLabel.text = "Player 2's score: " + String(playerTwoScore)
+        stats.playerOneScore = 0
+        stats.playerTwoScore = 0
+        playerOneScoreLabel.text = "Player 1's score: " + String(stats.playerOneScore)
+        playerTwoScoreLabel.text = "Player 2's score: " + String(stats.playerTwoScore)
         playerTwoScoreLabel.backgroundColor = .none
         playerOneScoreLabel.backgroundColor = .none
-        currentPlayer = "playerOne"
-        ended = false
+        stats.currentPlayer = "playerOne"
+        stats.ended = false
     }
+        
     
     func diceLogic() {
-        if (currentPlayer == "playerOne") {
-            if (playerOneScore == 0) {
+        if (stats.currentPlayer == "playerOne") {
+            if (stats.playerOneScore == 0) {
                 mainMessageLabel.text = "Let us begin..."
-            } else if (randomDiceIndex == 0) {
+            } else if (stats.randomDiceIndex == 0) {
                 mainMessageLabel.text = "You rolled a one, player 2 wins!"
-                ended = true
-                playerOneScore = 0
-                playerTwoScore = 0
+                stats.ended = true
+                stats.playerOneScore = 0
+                stats.playerTwoScore = 0
                 playerOneScoreLabel.backgroundColor = .gray
                 playerTwoScoreLabel.backgroundColor = .yellow
-            } else if (playerOneScore <= 10) {
-                mainMessageLabel.text = "Keep going..."
-                currentPlayer = "playerTwo"
-            } else if (playerOneScore <= 16) {
+            } else if (stats.playerOneScore <= 10) {
+                mainMessageLabel.text = stats.messages["midOne"]
+                stats.currentPlayer = "playerTwo"
+            } else if (stats.playerOneScore <= 16) {
                 mainMessageLabel.text = "Player 1's on the way..."
-                currentPlayer = "playerTwo"
-            } else if (playerOneScore <= 19) {
-                mainMessageLabel.text = "You so close!"
-                currentPlayer = "playerTwo"
-            } else if (playerOneScore >= 21) {
+                stats.currentPlayer = "playerTwo"
+            } else if (stats.playerOneScore <= 19) {
+                mainMessageLabel.text = stats.messages["midThree"]
+                stats.currentPlayer = "playerTwo"
+            } else if (stats.playerOneScore >= 21) {
                 mainMessageLabel.text = "You got to the end, player 1 is victorious!"
-                ended = true
-                playerOneScore = 0
-                playerTwoScore = 0
+                stats.ended = true
+                stats.playerOneScore = 0
+                stats.playerTwoScore = 0
                 playerOneScoreLabel.backgroundColor = .yellow
                 playerTwoScoreLabel.backgroundColor = .gray
             } else {return}
-        } else if (currentPlayer == "playerTwo") {
-            if (randomDiceIndex == 0) {
+        } else if (stats.currentPlayer == "playerTwo") {
+            if (stats.randomDiceIndex == 0) {
                 mainMessageLabel.text = "You rolled a one, player 1 wins!"
-                ended = true
-                playerOneScore = 0
-                playerTwoScore = 0
+                stats.ended = true
+                stats.playerOneScore = 0
+                stats.playerTwoScore = 0
                 playerOneScoreLabel.backgroundColor = .yellow
                 playerTwoScoreLabel.backgroundColor = .gray
-            } else if (playerTwoScore <= 10) {
-                mainMessageLabel.text = "Keep going..."
-                currentPlayer = "playerOne"
-            } else if (playerTwoScore <= 16) {
+            } else if (stats.playerTwoScore <= 10) {
+                mainMessageLabel.text = stats.messages["midOne"]
+                stats.currentPlayer = "playerOne"
+            } else if (stats.playerTwoScore <= 16) {
                 mainMessageLabel.text = "Player 2's on the way"
-                currentPlayer = "playerOne"
-            } else if (playerTwoScore <= 19) {
-                mainMessageLabel.text = "You so close!"
-                currentPlayer = "playerOne"
-            } else if (playerTwoScore >= 21) {
+                stats.currentPlayer = "playerOne"
+            } else if (stats.playerTwoScore <= 19) {
+                mainMessageLabel.text = stats.messages["midThree"]
+                stats.currentPlayer = "playerOne"
+            } else if (stats.playerTwoScore >= 21) {
                 mainMessageLabel.text = "You got to the end, player 2 is triumphant!"
-                ended = true
-                playerTwoScore = 0
+                stats.ended = true
+                stats.playerTwoScore = 0
                 playerOneScoreLabel.backgroundColor = .gray
                 playerTwoScoreLabel.backgroundColor = .yellow
-                currentPlayer = "playerOne"
+                stats.currentPlayer = "playerOne"
             } else {return}
         }
     }
@@ -131,7 +124,7 @@ class secondViewController: UIViewController {
         view.backgroundColor = .orange
         playerOneScoreLabel.text = "Player 1's score: "
         playerTwoScoreLabel.text = "Player 2's score: "
-        rulesLabel.text = "Take turns to roll the dice, get 21 or higher to win. \n Roll a one and you LOSE!"
+        rulesLabel.text = stats.messages["rules"]
         diceLogic()
     }
     
